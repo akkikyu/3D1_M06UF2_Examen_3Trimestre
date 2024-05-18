@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class GroundSensor : MonoBehaviour
 {
-    private PlayerController controller;
     public bool isGrounded;
 
-    SFXManager sfxManager;
-    SoundManager soundManager;
     GameManager gameManager;
 
     void Awake()
     {
-        controller = GetComponentInParent<PlayerController>();
-        
-        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -29,8 +22,6 @@ public class GroundSensor : MonoBehaviour
         else if(other.gameObject.layer == 6)
         {
             Debug.Log("Goomba muerto");
-
-            sfxManager.GoombaDeath();
             
             Enemy goomba = other.gameObject.GetComponent<Enemy>();
             goomba.Die();
@@ -42,10 +33,7 @@ public class GroundSensor : MonoBehaviour
         {
             Debug.Log("Estoy muerto");
 
-            soundManager.StopBGM();
-            sfxManager.MarioDeath();
             gameManager.GameOver();
-            //SceneManager.LoadScene()
         }  
     }
 

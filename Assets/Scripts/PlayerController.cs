@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     float horizontal;
 
     GameManager gameManager;
-    SFXManager sfxManager;
 
     void Awake()
     {
@@ -31,11 +30,7 @@ public class PlayerController : MonoBehaviour
         //Buscamos un Objeto por su nombre, cojemos el Componente GroundSensor de este objeto y lo asignamos a la variable
         sensor = GameObject.Find("GroundSensor").GetComponent<GroundSensor>();
         //Buscamos el objeto del GameManager y SFXManager lo asignamos a las variables
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-
-
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();        
     }
 
     // Update is called once per frame
@@ -55,8 +50,6 @@ public class PlayerController : MonoBehaviour
             }
 
 
-
-
             if(Input.GetButtonDown("Jump") && sensor.isGrounded)
             {
                 rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -70,12 +63,17 @@ public class PlayerController : MonoBehaviour
         rBody.velocity = new Vector2(horizontal * playerSpeed, rBody.velocity.y);
     }
 
+    public void Die()
+    {
+        gameManager.GameOver();
+        Destroy(this.gameObject);
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.gameObject.tag == "Coin")
         {
             gameManager.AddCoin();
-            sfxManager.CoinSound();
             Destroy(collider.gameObject);
         }
     }

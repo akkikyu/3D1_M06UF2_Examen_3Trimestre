@@ -10,20 +10,12 @@ public class Enemy : MonoBehaviour
     Animator anim;
     BoxCollider2D boxCollider;
     Rigidbody2D rBody;
-    SFXManager sfxManager;
-    SoundManager soundManager;
-    GameManager gameManager;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rBody = GetComponent<Rigidbody2D>();
-
-        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -42,12 +34,9 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Player")
-        {
-            Debug.Log("Mario muerto");
-            Destroy(collision.gameObject);
-            soundManager.StopBGM();
-            sfxManager.MarioDeath();
-            gameManager.GameOver();
+        {            
+            PlayerController mario = collision.gameObject.GetComponent<PlayerController>();
+            mario.Die();
         }
 
         if(collision.gameObject.tag == "ColisionGoomba")
@@ -76,10 +65,5 @@ public class Enemy : MonoBehaviour
                 horizontal = 1;
             }
         }
-    }
-
-    void OnBecameVisible()
-    {
-        
     }
 }

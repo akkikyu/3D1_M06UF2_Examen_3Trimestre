@@ -9,13 +9,7 @@ public class GameManager : MonoBehaviour
 
     public Text coinText;
     int coins;
-
-
-    void Update()
-    {
-
-    }
-
+    
     public void GameOver()
     {
         isGameOver = true;
