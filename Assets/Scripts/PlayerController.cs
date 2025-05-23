@@ -36,26 +36,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager.isGameOver == false)
+        if (gameManager.isGameOver == true)
         {
-            horizontal = Input.GetAxis("Horizontal");
-
-            if(horizontal < 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            else if(horizontal > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-
-
-            if(Input.GetButtonDown("Jump") && sensor.isGrounded)
-            {
-                rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            }
+            return;
         }    
         
+        horizontal = Input.GetAxis("Horizontal");
+
+        if(horizontal < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if(horizontal > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if(Input.GetButtonDown("Jump") && sensor.isGrounded)
+        {
+            rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }        
     }
 
     void FixedUpdate()
