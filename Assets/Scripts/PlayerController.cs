@@ -62,6 +62,10 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("IsRunning", false);
         }
 
+        rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        _animator.SetBool("IsJumping", true);
+
+
  
     }
 
