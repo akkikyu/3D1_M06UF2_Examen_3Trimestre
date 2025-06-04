@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     //Variable para almacenar el input de movimiento
     float horizontal;
 
+    private Animator _animator;
+
     GameManager gameManager;
 
     void Awake()
@@ -30,7 +32,8 @@ public class PlayerController : MonoBehaviour
         //Buscamos un Objeto por su nombre, cojemos el Componente GroundSensor de este objeto y lo asignamos a la variable
         sensor = GameObject.Find("GroundSensor").GetComponent<GroundSensor>();
         //Buscamos el objeto del GameManager y SFXManager lo asignamos a las variables
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _animator = GetComponent<Animator>();      
     }
 
     // Update is called once per frame
@@ -43,19 +46,23 @@ public class PlayerController : MonoBehaviour
         
         horizontal = Input.GetAxis("Horizontal");
 
-        if(horizontal < 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if(horizontal > 0)
+        
+        if(horizontal > 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            _animator.SetBool("IsRunning", true);
+        }
+        else if(horizontal < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            _animator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            _animator.SetBool("IsRunning", false);
         }
 
-        if(Input.GetButtonDown("Jump") && sensor.isGrounded)
-        {
-            rBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }        
+ 
     }
 
     void FixedUpdate()
@@ -77,4 +84,5 @@ public class PlayerController : MonoBehaviour
             Destroy(collider.gameObject);
         }
     }
+
 }
